@@ -1,0 +1,79 @@
+﻿@page "/DetailsCase/{Id}"
+@using ENB.Blazor.Lawyer.Models
+@using ENB.Blazor.Lawyer.HttpRepository
+@using LawyerOffice.Entities
+@using System.ComponentModel.DataAnnotations;
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject NotificationService notificationService
+
+<div class="alert alert-primary" role="alert">
+    <h2><strong>Details Lawyer: @displayCase.CaseTitle </strong></h2>
+</div>
+@if (displayCase != null)
+{
+    <div class="row card card-body bg-light mt-5">
+
+        <div class="col-md-12">
+            <table class="table table-striped" border="1">
+                <tbody>
+                    <tr>
+                        <td class="col-2">Case_description</td>
+                        <td class="col-10">@displayCase.Case_description</td>
+                    </tr>
+                    <tr>
+                        <td class="col-2">Case_Opened_date</td>
+                        <td class="col-10">@displayCase.Case_Opened_date</td>
+                    </tr>
+                    <tr>
+                        <td class="col-2">Case_Closed_date</td>
+                        <td class="col-10">@displayCase.Case_Closed_date</td>
+                    </tr>
+                    <tr>
+                        <td class="col-2">Statuscase</td>
+                        <td class="col-10">@displayCase.Statuscase</td>
+                    </tr>
+                    <tr>
+                        <td class="col-2">Other_case_details</td>
+                        <td class="col-10"> @displayCase.Other_case_details</td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<div class="row" style="margin-top:10px">
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@Edit" value="Edit" />
+            <input type="button" class="btn btn-light" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private DisplayCase displayCase { get; set; } = new DisplayCase();
+    [Parameter]
+    public string Id { get; set; }
+
+    [Inject]
+    public ICaseHttpRepository CaseRepo { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        displayCase = await CaseRepo.GetCase(int.Parse(Id));
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("casestable");
+    }
+
+    void Edit()
+    {
+      //  NavigationManager.NavigateTo($"EditLawyer/{displayLawyer.Id}");
+    }
+}
+

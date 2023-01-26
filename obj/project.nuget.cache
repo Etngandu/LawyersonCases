@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "2JerC9Bafe6xyAnJ3gVufwiHbNSJUtAEQg3EhJyRGQRoWaDJwpDW9X9MnuZMYzvXVjttNPs1kjbsVfLpvg19eA==",
+  "success": true,
+  "projectFilePath": "C:\\Devsource\\LawyerOffice\\LawyerOffice.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\User1\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512"
+  ],
+  "logs": []
+}

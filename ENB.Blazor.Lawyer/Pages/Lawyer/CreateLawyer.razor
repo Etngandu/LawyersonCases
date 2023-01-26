@@ -1,0 +1,133 @@
+﻿@page "/CreateLawyer"
+@using ENB.Blazor.Lawyer.Models
+@using ENB.Blazor.Lawyer.HttpRepository
+@using LawyerOffice.Entities
+@using System.ComponentModel.DataAnnotations;
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject NotificationService notificationService
+
+<div class="alert alert-primary" role="alert">
+    <h2><strong>Create New Lawyer</strong></h2>
+</div>
+
+<EditForm Model="createAndEditLawyer">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="FirstName" class="control-label">FirstName</label>
+                        <input form="FirstName" class="form-control" @bind="createAndEditLawyer.FirstName" />
+                        @*<ValidationMessage For="@(() => createAndEditLawyer.FirstName)" />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="LastName" class="control-label">LastName</label>
+                        <input form="LastName" class="form-control" @bind="createAndEditLawyer.LastName" />
+                        @*<ValidationMessage For="@(() => createAndEditLawyer.LastName)" />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="DateOfBirth" class="control-label">DateOfBirth</label>
+                        @*<input form="DateOfBirth" class="form-control" @bind="createAndEditLawyer.DateOfBirth" />*@
+                        <RadzenDatePicker @bind-Value="createAndEditLawyer.DateOfBirth" DateFormat="d"  Class="w-100" />
+                        @*<ValidationMessage For="@(() => createAndEditLawyer.DateOfBirth)" />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Qualications" class="control-label">Qualications</label><br />
+                        <InputSelect id="" @bind-Value="createAndEditLawyer.Qualications" class="form-control">
+                            @foreach (var qualification in Enum.GetValues(typeof(JobTitle)))
+                            {
+                                <option value="@qualification">@qualification</option>
+                            }
+                        </InputSelect>
+                        @*<ValidationMessage For="@(() => createAndEditLawyer.Qualications)" />*@
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Speciality" class="control-label">Speciality</label><br />
+
+                        <InputSelect id="" @bind-Value="createAndEditLawyer.Speciality" class="form-control">
+                            @foreach (var qualification in Enum.GetValues(typeof(RefSpeciality)))
+                            {
+                                <option value="@qualification">@qualification</option>
+                            }
+                        </InputSelect>
+                        @*<ValidationMessage For="@(() => createAndEditLawyer.Speciality)" />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="EmailAddres" class="control-label">EmailAddres</label>
+                        <input form="EmailAddres" class="form-control" @bind="createAndEditLawyer.EmailAddres" />
+                        @*<ValidationMessage For="@(() => createAndEditLawyer.EmailAddres)" />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="PhoneNumber" class="control-label">PhoneNumber</label>
+                        <input form="PhoneNumber" class="form-control" @bind="createAndEditLawyer.PhoneNumber" />
+                        @*<ValidationMessage For="@(() => createAndEditLawyer.PhoneNumber)" />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Hourly_rate" class="control-label">Hourly_rate</label>
+                        <input form="Hourly_rate" class="form-control" @bind="createAndEditLawyer.Hourly_rate" />
+                        @*<ValidationMessage For="@(() => createAndEditLawyer.Hourly_rate)" />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Submit" @onclick="@Create" class="btn btn-primary"  />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Cancel" class="btn btn-secondary" @onclick="@Cancel" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</EditForm>
+
+
+@code {
+
+    [Inject]
+    public ILawyerHttpRepository LawyerRepo { get; set; }
+
+    public CreateAndEditLawyer createAndEditLawyer { get; set; }= new CreateAndEditLawyer();
+
+
+    protected async Task Create()
+    {
+
+        await  LawyerRepo.AddLawyer(createAndEditLawyer);
+        notificationService.Notify(NotificationSeverity.Info, summary: "Lawyer Added succefully",
+           detail: "", duration: 4000);
+        NavigationManager.NavigateTo("lawyertable");
+
+    }
+
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("lawyertable");
+    }
+
+}

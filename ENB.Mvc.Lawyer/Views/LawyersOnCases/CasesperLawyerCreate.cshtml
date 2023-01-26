@@ -1,0 +1,47 @@
+﻿@using LawyerOffice.Entities;
+@model ENB.Mvc.Lawyer.Models.CreateAndEditLawyerOnCase;
+@{ ViewData["Title"] = "CreateCasesperLawyer"; }
+
+
+<div class="alert alert-dismissible alert-success">
+    <h2>Create And Edit Case linked to lawyer: @ViewBag.Message</h2>
+</div>
+
+<form asp-action="CasesperLawyerCreate"  asp-route-lawyerid="@ViewBag.Lawyer_Id">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="form-group">
+                <label asp-for="NameCase" class="control-label"></label>
+                <select id="drpEmpList" class="form-control" asp-for="CaseId" asp-items="@(new SelectList(Model.ListCases, "Value", "Text"))">
+                    <option value="">--Select--</option>
+                </select>
+                <span asp-validation-for="CaseId" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-all">
+        @await Html.PartialAsync("_CasesprLawyerCreateOrEdit", Model)
+    </div>
+
+
+
+
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <a asp-action="CasesperLawyerList" asp-route-lawyerId="@ViewBag.Lawyer_Id" class="btn btn-secondary btn-block col-md-4">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\etnga\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\etnga\\.nuget\\packages"
+    ]
+  }
+}

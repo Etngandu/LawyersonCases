@@ -1,0 +1,28 @@
+﻿<h3>Lawyer</h3>
+@page "/lawyer"
+@using ENB.Blazor.Lawyer.Pages.Lawyer
+
+
+
+<div class="row">
+    <div class="col-md-10">
+        @*Place for search and sort*@
+    </div>
+    <div class="col-md-2">
+        <a href="/createProduct">Create Lawyer</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <LawyerTable />
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @*Place for pagination*@
+    </div>
+</div>
+
+@code {
+
+}

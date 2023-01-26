@@ -1,0 +1,8 @@
+D:\Devsource\LawyerOffice\ENB.Mvc.Lawyer\obj\Debug\net5.0\ENB.MvcLawyer.csproj.AssemblyReference.cache
+D:\Devsource\LawyerOffice\ENB.Mvc.Lawyer\obj\Debug\net5.0\ENB.MvcLawyer.GeneratedMSBuildEditorConfig.editorconfig
+D:\Devsource\LawyerOffice\ENB.Mvc.Lawyer\obj\Debug\net5.0\ENB.MvcLawyer.AssemblyInfoInputs.cache
+D:\Devsource\LawyerOffice\ENB.Mvc.Lawyer\obj\Debug\net5.0\ENB.MvcLawyer.AssemblyInfo.cs
+D:\Devsource\LawyerOffice\ENB.Mvc.Lawyer\obj\Debug\net5.0\ENB.MvcLawyer.csproj.CoreCompileInputs.cache
+D:\Devsource\LawyerOffice\ENB.Mvc.Lawyer\obj\Debug\net5.0\ENB.MvcLawyer.MvcApplicationPartsAssemblyInfo.cache
+D:\Devsource\LawyerOffice\ENB.Mvc.Lawyer\obj\Debug\net5.0\ENB.MvcLawyer.RazorAssemblyInfo.cache
+D:\Devsource\LawyerOffice\ENB.Mvc.Lawyer\obj\Debug\net5.0\ENB.MvcLawyer.RazorAssemblyInfo.cs

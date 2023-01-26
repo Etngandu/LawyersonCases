@@ -1,0 +1,38 @@
+﻿@using LawyerOffice.Entities;
+@model ENB.Mvc.Lawyer.Models.DisplayCase;
+@{ ViewData["Title"] = "Delete"; }
+
+
+<div class="alert alert-danger" role="alert">
+    <h2><strong>Do you really want to remove: @ViewBag.Message ?</strong></h2>
+</div>
+
+<div id="view-all">
+    @await Html.PartialAsync("_Details", Model)
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })*@
+                @*<a asp-action="@Url.Action("Delete","Lawyer")" class="btn btn-danger btn-block col-md-2">Delete</a>|*@
+                @*<a asp-action="Index" class="btn btn-secondary btn-block col-md-2">Back to List</a>*@
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })*@
+                @*<a asp-action="@Url.Action("Edit","Lawyer")" class="btn btn-danger btn-block col-md-2">Delete</a>|*@
+                <a asp-action="Index" class="btn btn-secondary btn-block col-md-4">Back to List</a>
+            </div>
+        </div>
+    </div>
+}

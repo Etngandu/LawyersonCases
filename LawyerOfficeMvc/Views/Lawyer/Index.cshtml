@@ -1,0 +1,185 @@
+﻿@using LawyerOffice.Entities;
+    @model LawyerOfficeMvc.Models.DisplayLawyer;
+    @{
+        ViewBag.Title = "Index";
+
+    }
+
+    <br />
+    <div class="alert alert-info" role="alert">
+        <h2><strong>Lawyer Dashboard <i class="fas fa-ambulance"></i></strong></h2>
+    </div>
+    <a class="btn btn-success text-white" style="margin-bottom:10px" onclick="showInPopup ('@Url.Action("Create","Lawyer",null,Context.Request.Scheme)')"><i class="fas fa-plus"></i> New Lawyer</a>
+    <table id="Lawyertable" class="table table-striped table-bordered" width="100%">
+        <thead>
+            <tr>
+                <th>FullName</th>
+                <th>Hourly_rate</th>
+                <th>DateOfBirth</th>
+                <th>EmailAddres</th>
+                <th>PhoneNumber</th>
+                <th> </th>
+            </tr>
+        </thead>
+    </table>
+
+    <link href="~/lib/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+
+
+    @section scripts{
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/lib/DataTables/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+            var Popup, datatable, IdPatient = parseInt('@ViewBag.Patient_Id'),IdWard=parseInt('@ViewBag.Ward_Id')
+            $(document).ready(function () {
+                datatable = $("#Lawyertable").DataTable({
+                    "ajax": {
+                        "url": "/Lawyer/GetLawyerData",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+
+                        {
+                            "data": "fullName",
+                            "width":"250px",
+                            "render": function (data, type, row, meta) {
+                                return '<a href="/Lawyer/Detail/' + row.Id + '">' + data + '</a>';
+                            }
+                        },
+                        { "data": "hourly_rate" },
+                        {
+                            "data": "dateOfBirth",
+                            "render": formatdate
+                        },
+                        { "data": "emailAddres" },
+                        { "data": "phoneNumber" },
+                        {
+                            "data": "Id", "render": function (data) {
+                                return "<a class= 'btn btn-primary btn-sm text-white' onclick=PopupForm('@Url.Action("Edit","Patient")/" + data + "')><i class='fas fa-pencil'></i><b> Edit</b></a><a class= 'btn btn-danger btn-sm text-white' style='margin-left:5px' onclick=Delete(" + data + ")><i class='fa-solid fa-trash-can'></i><b> Delete</b> </a> " + "\r\n" +
+                                    "<a class= 'btn btn-default btn-sm' style='margin-left:5px' onclick=location.href='@Url.Action("List", "Patient_in_Room")?patient_Id=" + data + "'><i class='fa-solid fa-link-horizontal'></i>Link Case </a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "600px"
+                        }
+
+                    ],
+                    "language": {
+
+                        "emptyTable": "No data Found, Please Click On <b>Add New</b> Button"
+                    }
+
+                });
+
+            });
+
+            function PopupForm(url) {
+                var formdiv = $('<div/>')
+                $.get(url)
+                    .done(function (response) {
+                        formdiv.html(response);
+
+                        Popup = formdiv.dialog({
+
+                            autoOpen: true,
+                            resizable: false,
+                            title: 'Fill Patient details',
+                            height: 700,
+                            width: 1500,
+                            close: function () {
+
+                                Popup.dialog('destroy').remove();
+                            }
+
+
+                        })
+
+                    })
+            }
+
+            function SubmitForm(form) {
+
+                $.validator.unobtrusive.parse(form);
+                if ($(form).valid()) {
+                    $.ajax({
+                        type: 'POST',
+                        url: form.action,
+                        data: $(form).serialize(),
+                        success: function (data) {
+                            if (data.success) {
+                                Popup.dialog('close');
+                                datatable.ajax.reload();
+
+                                $.notify(data.message, {
+                                    globalPosition: "top center",
+                                    className: "success"
+                                })
+
+                            }
+                        }
+
+                    });
+                }
+                return false;
+            }
+
+            function Delete(id) {
+                if (confirm('Are You Sure to Delete this Record'))
+                {
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("Delete","Ward")/'+ id,
+                        success: function (data) {
+                            if (data.success) {
+                                datatable.ajax.reload();
+
+                                $.notify(data.message, {
+                                    globalposition: "top center",
+                                    className: "success"
+                                })
+                            }
+                        }
+
+                    });
+
+                }
+
+
+            }
+
+
+            function formatdate(data) {
+                var value = new Date
+                    (
+                        parseInt(data.replace(/(^.*\()|([+-].*$)/g, ''))
+                    );
+                var dat = value.getMonth() +
+                    1 +
+                    "/" +
+                    value.getDate() +
+                    "/" +
+                    value.getFullYear();
+                return(dat);
+
+            }
+
+            function Genderparse(data) {
+                var gnder;
+                switch (data) {
+                    case 1:
+                        gnder="Male"
+                        break;
+                    case 2:
+                        gnder="Female"
+                        break;
+                    default:
+                    // code block
+                }
+                return gnder;
+            }
+
+        </script>
+    }

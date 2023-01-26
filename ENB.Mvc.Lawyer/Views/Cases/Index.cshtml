@@ -1,0 +1,165 @@
+﻿@using LawyerOffice.Entities;
+@model ENB.Mvc.Lawyer.Models.DisplayCase;
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<br />
+<div class="alert alert-info" role="alert">
+    <h2><strong>Cases Dashboard <i class="fas fa-briefcase"></i></strong></h2>
+</div>
+@if (User.IsInRole("Visitor"))
+{
+    <text><strong>Action is not available</strong></text>
+    <br />
+}
+else
+{
+    <a asp-action="Create" asp-controller="Cases" class="btn btn-success text-white" style="margin-bottom:10px"><i class="fas fa-plus"></i> New Case</a>
+}
+
+<table id="Lawyertable" class="table table-striped table-bordered" width="100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>CaseTitle</th>
+            <th>Opened_date</th>
+            <th>Closed_date</th>
+            <th>Case_description</th>
+            <th>Statuscase</th>
+            <th> </th>
+        </tr>
+    </thead>
+</table>
+
+<link href="~/lib/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+
+@section scripts{
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/lib/DataTables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+            var Popup, datatable, IdPatient = parseInt('@ViewBag.Patient_Id'),IdWard=parseInt('@ViewBag.Ward_Id')
+            $(document).ready(function () {
+               var datatable = $("#Lawyertable").DataTable({
+                    "ajax": {
+                        "url": "/Cases/GetCasesData",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+
+                        { "data": "id" },
+                        {
+                            "data": "caseTitle",
+                            "width":"250px",
+                            "render": function (data, type, row, meta) {
+                                return '<a href="/Cases/Details/' + row.id + '">' + data + '</a>';
+                            }
+                        },
+                        {
+                            "data": "case_Opened_date",
+                            "render": dateFormatter
+                        },
+                        {
+                            "data": "case_Closed_date",
+                            "render": dateFormatter
+                        },
+                        { "data": "case_description" },
+                        {
+                            "data": "statuscase",
+                            "render": statuscase
+                        },
+                        {
+                            "data": "id", "render": function (data) {
+                                return "<a class= 'btn btn-primary btn-sm text-white' onclick=location.href='@Url.Action("Edit","Cases")/" + data + "'><i class='fas fa-pencil'></i><b> Edit</b></a><a class= 'btn btn-danger btn-sm text-white' style='margin-left:5px' onclick=location.href='@Url.Action("Delete","Cases")/" + data + "'><i class='fa-solid fa-trash-can'></i><b> Delete</b> </a> " + "\r\n" +
+                                    "<a class= 'btn btn-info btn-sm text-white' style='margin-left:5px' onclick=location.href='@Url.Action("LawyersperCaseList", "LawyersOnCases")?caseId=" + data + "'><i class='fas fa-external-link'></i> Lawyer </a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "600px"
+                        }
+
+                    ],
+                    "language": {
+
+                        "emptyTable": "No data Found, Please Click On <b>Add New</b> Button"
+                    },
+                "footerCallback": function (row, data, start, end, display) {
+
+        @{
+            if (User.IsInRole("Visitor"))
+            {
+
+                <text>
+                            var api = this.api(datatable);
+
+                            var column = api.column(6);
+                            column.visible(false);
+                            console.log(api.column);
+
+                </text>
+
+            }
+        }
+
+
+
+                        }
+              
+                
+                
+
+                });
+
+            });
+
+
+
+            
+
+            
+
+
+            
+
+
+
+
+      function  dateFormatter(data) {
+            var dateAsString = data;
+
+            var yearNumber = dateAsString.substring(0, 4);
+            var monthNumber = dateAsString.substring(5, 7);
+            var dayNumber = dateAsString.substring(8, 10);
+          var dat = dayNumber + "/" + monthNumber + "/" + yearNumber;
+            return dat;
+        }
+
+
+        function statuscase(data) {
+                var stcs;
+                switch (data) {
+                    case 1:
+                        stcs="Open"
+                        break;
+                    case 2:
+                        stcs="Closed"
+                        break;
+                    default:
+                    // code block
+                }
+                return stcs;
+            }
+
+    </script>
+}
+    <h2>Claim details</h2>
+    <ul>
+    @foreach (var claim in User.Claims)
+    {
+        <li><strong>@claim.Type</strong>: @claim.Value</li>
+    }
+</ul>

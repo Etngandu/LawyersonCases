@@ -1,0 +1,83 @@
+﻿@model ENB.Mvc.Lawyer.Models.CreateAndEditCase
+@using LawyerOffice.Entities;
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="alert alert-primary" role="alert">
+    <h2>Edit Case</h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CaseTitle" class="control-label"></label>
+                        <input asp-for="CaseTitle" class="form-control" />
+                        <span asp-validation-for="CaseTitle" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Case_Opened_date" class="control-label"></label>
+                        <input asp-for="Case_Opened_date" class="form-control" />
+                        <span asp-validation-for="Case_Opened_date" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Case_Closed_date" class="control-label"></label>
+                        <input asp-for="Case_Closed_date" class="form-control" />
+                        <span asp-validation-for="Case_Closed_date" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Statuscase" class="control-label"></label>
+                        <select asp-for="Statuscase" class="form-control" asp-items="Html.GetEnumSelectList<CaseStatus>()"></select>
+                        <span asp-validation-for="Statuscase" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Other_case_details" class="control-label"></label>
+                        <textarea asp-for="Other_case_details" type="text" class="form-control" rows="5" id="MessageInputField" autofocus></textarea>
+                        <span asp-validation-for="Other_case_details" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Case_description" class="control-label"></label>
+                        <textarea asp-for="Case_description" type="text" class="form-control" rows="5" id="MessageInputField" autofocus></textarea>
+                        <span asp-validation-for="Case_description" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

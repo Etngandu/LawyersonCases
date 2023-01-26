@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "font-awesome@6.1.0",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "fullcalendar@4.2.0",
+      "destination": "wwwroot/lib/fullcalendar/"
+    },
+    {
+      "library": "superagent@4.1.0",
+      "destination": "wwwroot/superagent/"
+    },
+    {
+      "library": "moment.js@2.29.4",
+      "destination": "wwwroot/moment.js/"
+    }
+  ]
+}

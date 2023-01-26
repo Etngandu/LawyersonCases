@@ -1,0 +1,41 @@
+﻿@model ENB.Mvc.Lawyer.Models.CreateAndEditLawyerOnCase
+@using LawyerOffice.Entities;
+
+<div class="row">
+    <div class="col-md-12">        
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Reference_role" class="control-label"></label>                        
+                        <select asp-for="Reference_role" class="form-control" asp-items="Html.GetEnumSelectList<RefRoles>()"></select>
+                        <span asp-validation-for="Reference_role" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Case_status" class="control-label"></label>                        
+                        <select asp-for="Case_status" class="form-control" asp-items="Html.GetEnumSelectList<CaseStatus>()"></select>
+                        <span asp-validation-for="Case_status" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="StartTime" class="control-label"></label>
+                        <input asp-for="StartTime" class="form-control" />
+                        <span asp-validation-for="StartTime" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="EndTime" class="control-label"></label>
+                        <input asp-for="EndTime" class="form-control" />
+                        <span asp-validation-for="EndTime" class="text-danger"></span>
+                    </div>
+                </div>
+            </div> 
+       
+    </div>
+</div>
+
+

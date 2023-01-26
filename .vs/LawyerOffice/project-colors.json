@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "903b0ede-56fe-42c2-8641-48e0d3d06874": {
+      "ProjectGuid": "903b0ede-56fe-42c2-8641-48e0d3d06874",
+      "DisplayName": "LawyerOffice.Data.EF",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

@@ -1,0 +1,12 @@
+D:\Devsource\LawyerOffice\LawyerOffice.Model\bin\Debug\net5.0\LawyerOffice.Model.deps.json
+D:\Devsource\LawyerOffice\LawyerOffice.Model\bin\Debug\net5.0\LawyerOffice.Model.dll
+D:\Devsource\LawyerOffice\LawyerOffice.Model\bin\Debug\net5.0\ref\LawyerOffice.Model.dll
+D:\Devsource\LawyerOffice\LawyerOffice.Model\bin\Debug\net5.0\LawyerOffice.Model.pdb
+D:\Devsource\LawyerOffice\LawyerOffice.Model\obj\Debug\net5.0\LawyerOffice.Model.GeneratedMSBuildEditorConfig.editorconfig
+D:\Devsource\LawyerOffice\LawyerOffice.Model\obj\Debug\net5.0\LawyerOffice.Model.AssemblyInfoInputs.cache
+D:\Devsource\LawyerOffice\LawyerOffice.Model\obj\Debug\net5.0\LawyerOffice.Model.AssemblyInfo.cs
+D:\Devsource\LawyerOffice\LawyerOffice.Model\obj\Debug\net5.0\LawyerOffice.Model.csproj.CoreCompileInputs.cache
+D:\Devsource\LawyerOffice\LawyerOffice.Model\obj\Debug\net5.0\LawyerOffice.Model.dll
+D:\Devsource\LawyerOffice\LawyerOffice.Model\obj\Debug\net5.0\ref\LawyerOffice.Model.dll
+D:\Devsource\LawyerOffice\LawyerOffice.Model\obj\Debug\net5.0\LawyerOffice.Model.pdb
+D:\Devsource\LawyerOffice\LawyerOffice.Model\obj\Debug\net5.0\LawyerOffice.Model.csproj.AssemblyReference.cache

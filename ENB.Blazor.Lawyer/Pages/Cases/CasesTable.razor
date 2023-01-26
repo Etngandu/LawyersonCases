@@ -1,0 +1,69 @@
+﻿@page "/CasesTable"
+@using ENB.Blazor.Lawyer.Models
+@using ENB.Blazor.Lawyer.HttpRepository
+@inject NavigationManager NavigationManager
+
+<div class="alert alert-info" role="alert">
+    <h2><strong>Case Dashboard <i class="fa fa-suitcase" aria-hidden="true"></i></strong></h2>
+</div>
+
+<a href="/CreateCase" class="btn btn-info" style="margin-bottom:5px"> Create New Case</a>
+
+<RadzenDataGrid Data="@CasesList" TItem="DisplayCase" AllowPaging="true" PageSize="10"
+      PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"  AllowSrolling="true" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Advanced">
+    <Columns>
+        <RadzenDataGridColumn TItem="DisplayCase" Frozen="true" Property="Id" Title="ID" Width="100px" />
+        <RadzenDataGridColumn TItem="DisplayCase" Property="CaseTitle" Title="Name" >
+            <Template Context="Cases">
+                <a href="@($"DetailsCase/{Cases.Id}")">@Cases.CaseTitle</a>
+            </Template>
+        </RadzenDataGridColumn>       
+        <RadzenDataGridColumn TItem="DisplayCase" Property="Case_Opened_date" FormatString="{0:dd/MM/yyyy}"  Title="Opened_date" Width="140px" />
+        <RadzenDataGridColumn TItem="DisplayCase" Property="Case_Closed_date" FormatString="{0:dd/MM/yyyy}"  Title="Closed_date" Width="140px" />
+        <RadzenDataGridColumn TItem="DisplayCase" Property="Case_description" Title="Case_description" />
+        <RadzenDataGridColumn TItem="DisplayCase" Property="Statuscase" Title="Statuscase" Width="¨140px" />
+        <RadzenDataGridColumn TItem="DisplayCase" Context="Lawyers" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="120px">
+            <Template Context="Cases">
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Secondary" Class="m-1" Size="ButtonSize.Small" Click="@(args => OnClickEdit(Cases.Id))" @onclick:stopPropagation="true" >
+                    <strong> <i class='fas fa-pencil'></i>  Edit</strong>
+                </RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="DisplayCase" Context="Lawyers" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="150px">
+            <Template Context="Cases">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1" Click="@(args => OnClickDelete(Cases.Id))" @onclick:stopPropagation="true">
+                    <strong> <i class='fa-solid fa-trash-can'></i>    Delete</strong>
+                </RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+        
+
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    public IEnumerable<DisplayCase> CasesList { get; set; }
+
+    [Inject]
+    public ICaseHttpRepository CaseRepo { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        CasesList = await CaseRepo.GetCases();
+        //just for testing
+        foreach (var vcase in CasesList)
+        {
+            Console.WriteLine(vcase.CaseTitle);
+        }
+    }
+
+    void OnClickEdit(int Id)
+    {
+        NavigationManager.NavigateTo($"EditCase/{Id}");
+    }
+
+    void OnClickDelete(int Id)
+    {
+        NavigationManager.NavigateTo($"DeleteCase/{Id}");
+    }
+
+}

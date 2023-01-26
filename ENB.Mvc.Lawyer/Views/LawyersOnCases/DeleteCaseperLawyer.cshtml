@@ -1,0 +1,95 @@
+﻿@model ENB.Mvc.Lawyer.Models.DisplayLawyerOnCase
+
+@{
+    ViewData["Title"] = "DetailsCasesperLawyer";
+}
+
+<div class="alert alert-danger" role="alert">
+    <h2><strong>Do you really want to delete Lawyer: @ViewBag.Message ?</strong></h2>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Titlecase)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Titlecase)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reference_role)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reference_role)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Case_status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Case_status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Billing_case)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Billing_case)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TotBilling)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotBilling)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateModified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateModified)
+        </dd>
+    </dl>
+</div>
+@using (Html.BeginForm("DeleteL", "LawyersOnCases", FormMethod.Post))
+{
+    @Html.Hidden("lawyerid", Model.LawyerId)
+    @Html.HiddenFor(model => model.Id)
+    @Html.AntiForgeryToken()
+    <div>
+        <dl class="row">
+            <dt class="col-sm-4">
+                @*<a class="btn btn-danger" asp-action="CasesperLawyerEdit" asp-controller="LawyersonCases"
+                    asp-route-lawyerid="@ViewBag.LawyerId" asp-route-id="@ViewBag.Id">Delete</a>*@
+                <input type="submit" value="DeleteL" class="btn btn-danger" />
+            </dt>
+            <dd class="col-sm-4">
+                <a class="btn btn-light" asp-action="CasesperLawyerList" asp-controller="LawyersonCases"
+                   asp-route-lawyerid="@ViewBag.LawyerId">Back to List</a>
+            </dd>
+        </dl>
+
+    </div>
+}
+

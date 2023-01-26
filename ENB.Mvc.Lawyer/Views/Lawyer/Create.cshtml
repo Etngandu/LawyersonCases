@@ -1,0 +1,141 @@
+﻿@model ENB.Mvc.Lawyer.Models.CreateAndEditLawyer
+@using LawyerOffice.Entities;
+
+@{
+    ViewData["Title"] = "Create";
+
+}
+
+
+<div class="alert alert-primary" role="alert">
+    <h2><strong>Create New Lawyer</strong></h2>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Qualications" class="control-label"></label>
+                        <select asp-for="Qualications" class="form-control" asp-items="Html.GetEnumSelectList<JobTitle>()"></select>
+                        <span asp-validation-for="Qualications" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Speciality" class="control-label"></label>
+                        <select asp-for="Speciality" class="form-control" asp-items="Html.GetEnumSelectList<RefSpeciality>()"></select>
+                        <span asp-validation-for="Speciality" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="EmailAddres" class="control-label"></label>
+                        <input asp-for="EmailAddres" class="form-control" />
+                        <span asp-validation-for="EmailAddres" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Hourly_rate" class="control-label"></label>
+                        <input asp-for="Hourly_rate" class="form-control" />
+                        <span asp-validation-for="Hourly_rate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <a asp-action="Index" class="btn btn-secondary btn-block"><i class="fas fa alert-info"></i> Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+
+    function SubmitForm(form) {
+
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Lawyer/NotifyAction',
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {  
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                        else {
+                            $.notify(data.message, {
+                                globalPosition: "top left",
+                                className: "error",
+                                clickToHide: true,
+                            })
+
+                        }
+                    }
+
+                });
+            }
+            return false;
+        }
+
+
+
+</script>
+
+    
+}
+    
+

@@ -1,0 +1,237 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="alert alert-info" role="alert">
+    <h2><strong>Lawyer Event calendar <i class="fa-solid fa-calendar-days"></i></strong></h2>
+</div>
+<br />
+<div id="calendar"></div>
+
+<div class="modal fade" id="form-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"><span id="eventTitle"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <button  id="btnDelete" class="btn btn-danger btn-sm pull-right">
+                        <i class='fa-solid fa-trash-can'></i> Remove
+                    </button>
+                    <button id="btnEdit" class="btn btn-info btn-sm pull-right" style="margin-right:5px;">
+                        <i class='fas fa-pencil'></i> Edit
+                    </button>
+                </div><br/><br />
+                <p id="pDetails" ></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="~/lib/fullcalendar/core/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/daygrid/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/bootstrap/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/timegrid/main.css" rel="stylesheet" />
+<link href="~/lib/fullcalendar/list/main.css" rel="stylesheet" />
+
+@section Scripts{
+
+
+    <script src="~/lib/fullcalendar/core/main.js"></script>
+    <script src="~/lib/fullcalendar/interaction/main.js"></script>
+    <script src="~/lib/fullcalendar/daygrid/main.js"></script>
+    <script src="~/lib/fullcalendar/bootstrap/main.js"></script>
+    <script src="~/lib/fullcalendar/timegrid/main.js"></script>
+    <script src="~/lib/fullcalendar/list/main.js"></script>
+    <script src="~/lib/fullcalendar/moment/main.js"></script>
+    <script src="~/lib/fullcalendar/moment-timezone/main.js"></script>
+    <script src="~/superagent/superagent.js"></script>
+    <script src="~/moment.js/moment.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+           // var request = require( "superagent" );
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid', 'bootstrap', 'timeGrid', 'list', 'moment', 'momentTimezone'],
+                themeSystem: 'bootstrap',
+                initialView: 'dayGridMonth',
+                initialDate: '@ViewBag.EventDate',
+                timeZone: 'local',
+                //  eventLimit: true, // allow "more" link when too many events
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+
+
+
+                eventClick: function (info) {
+                    var eventObj = info.event;
+                    var exteventObj = info.event.extendedProps;
+
+                    console.log(eventObj.title);
+                    $('#form-modal #eventTitle').text(eventObj.title);
+                    var $description = $('<div/ class="alert alert-secondary" role="alert" style="margin-top:3px">');
+                    $description.append($('<p/ class="alert alert-primary" role="alert">').html('<b>Lawyer:</b> ' + exteventObj.nameLawyer));
+                    $description.append($('<p/ class="alert alert-primary" role="alert">').html('<b>Start:</b> ' + eventObj.start));
+                    if (eventObj.end != null) {
+                        $description.append($('<p/ class="alert alert-primary" role="alert">').html('<b>End:</b> ' + eventObj.end));
+                    }
+                    $description.append($('<p/ class="alert alert-primary" role="alert">').html('<b>Description:</b> ' + exteventObj.description));
+                    $('#form-modal #pDetails').empty().html($description);
+
+                    $('#form-modal').modal();
+
+                    $('#btnEdit').click(function () {
+                        //Redirect for edit event
+
+                        window.location = '@Url.Action("Edit","LawyerEvent")' + '?lawyerId=' + exteventObj.lawyerId + '&id=' + eventObj.id + '';
+                    });
+
+                    $('#btnDelete').click(function () {
+                        //Redirect for edit event
+
+                        window.location = '@Url.Action("Details","LawyerEvent")' + '?lawyerId=' + exteventObj.lawyerId + '&id=' + eventObj.id + '';
+                    });
+
+                },
+
+                dateClick: function (info, jsEvent, view) {
+                    let m = moment(info.date, calendar); // calendar is required
+                    console.log('clicked on ' + m.format());
+                    var heading = 'Confirm Calendar Event Transaction';
+                    var question = 'Please confirm that you wish to create  an event ';
+                    var cancelButtonTxt = 'Cancel';
+                    var okButtonTxt = 'Confirm';
+                    var callback = function () {
+                        window.location = '@Url.Action("Create","LawyerEvent")' + '?eventDate=' + m.format();
+                    };
+
+                    if (info.view.type != 'month') {
+                        if (info.date > moment()) {
+                            if (confirm(heading, question, cancelButtonTxt, okButtonTxt, callback)) {
+                                callback;
+                            }
+
+                        }
+                    }
+                    else {
+                        $('#calendar').fullCalendar('changeView', 'agendaDay');
+                        $('#calendar').fullCalendar('gotoDate', date);
+                    }
+                },
+
+                eventRender: function (info) {
+                    var color;
+                    var vcolor = info.event.color;
+
+                    console.log(info.event.color);
+
+                        switch(vcolor) {
+                        case 1:
+                        color = "orange"
+                            break;
+                        case 2:
+                        color = "green"
+                            break;
+                        case 3:
+                        color = "red"
+                            break;
+                        case 4:
+                        color = "darkcyan"
+                            break;
+                        default:
+                        }
+                    return color;
+                },
+
+                
+                
+
+
+                events: {
+                    url: '/LawyerEvent/GetEvents',
+                    method: 'POST',
+                       extendedProps: {
+                         url:'info.event.extendedProps.description',
+                           nameLawyer: 'info.event.extendedProps.nameLawyer',
+                           id: 'info.event.extendedProps.Id',
+                           lawyerId: 'info.event.extendedProps.lawyerId',
+                          //DateCreated = DateTime.Today,
+                          //DateModified = DateTime.Today,
+                          //IsFullDay = false
+                    },
+                    failure: function () {
+                        alert('there was an error while fetching events!');
+                    },
+                    color: 'yellow',   // a non-ajax option
+                    textColor: 'black' // a non-ajax option
+                }
+
+                
+
+            });
+
+            calendar.render();
+          
+
+
+        });
+
+
+
+                @*function Editevent:() {
+                window.location = '@Url.Action("Edit","LawyerEvent")' + '?eventDate=' + m.format();
+            };*@
+
+        /* Generic Confirm func */
+        function confirm(heading, question, cancelButtonTxt, okButtonTxt, callback) {
+
+            var confirmModal =
+                $('<div class="modal fade">' +
+                    '<div class="modal-dialog">' +
+                    '<div class="modal-content">' +
+                    '<div class="modal-header">' +
+                    '<h5 class="modal-title" >' + heading + '</h5>' +
+                    '<a class="close" data-dismiss="modal" >&times;</a>' +
+                    '</div>' +
+
+                    '<div class="modal-body">' +
+                    '<p class="alert alert-primary" role="alert">' + question + '</p>' +
+                    '</div>' +
+                    '<div class="modal-footer">' +
+                    '<button type="button" class="btn btn-secondary" aria-hidden="true" data-dismiss="modal">' + cancelButtonTxt+ '</button>'+
+                    '<button type ="button" data-dismiss="modal" id="okButton" aria-hidden="true" class="btn btn-primary">' +
+                    okButtonTxt +
+                    '</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>');
+
+            confirmModal.find('#okButton').click(function (event) {
+                 callback();
+                confirmModal.modal('hide');
+            });
+
+            confirmModal.modal('show');
+        };
+/* END          Generic Confirm func */
+
+    </script>
+
+
+
+   
+}

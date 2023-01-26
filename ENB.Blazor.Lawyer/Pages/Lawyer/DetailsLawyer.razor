@@ -1,0 +1,91 @@
+﻿
+@page "/DetailsLawyer/{Id}"
+@using ENB.Blazor.Lawyer.Models
+@using ENB.Blazor.Lawyer.HttpRepository
+@using LawyerOffice.Entities
+@using System.ComponentModel.DataAnnotations;
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject NotificationService notificationService
+
+<div class="alert alert-primary" role="alert">
+    <h2><strong>Details Lawyer: @displayLawyer.FullName </strong></h2>
+</div>
+@if (displayLawyer != null)
+{
+    <div class="row card card-body bg-light mt-5">
+       
+        <div class="col-md-12">
+         <table class="table table-striped" border="1">
+             <tbody>
+            <tr>
+                <td class="col-2">FirstName</td>
+                <td class="col-10">@displayLawyer.FirstName</td>
+            </tr>
+            <tr>
+                    <td class="col-2">Name</td>
+                    <td class="col-10">@displayLawyer.LastName</td>
+            </tr>
+            <tr>
+                    <td class="col-2">Email</td>
+                    <td class="col-10">@displayLawyer.EmailAddres</td>
+            </tr>
+            <tr>
+                    <td class="col-2">Mobile Number</td>
+                    <td class="col-10">@displayLawyer.PhoneNumber</td>
+            </tr>          
+            <tr>
+                    <td class="col-2">DateOfBirth</td>
+                    <td class="col-10"> @displayLawyer.DateOfBirth</td>
+            </tr>
+            <tr>
+                    <td class="col-2">Hourly_rate</td>
+                    <td class="col-10">@displayLawyer.Hourly_rate</td>
+            </tr>
+            <tr>
+                    <td class="col-2">Speciality</td>
+                    <td class="col-10">@displayLawyer.Speciality</td>
+            </tr>
+            <tr>
+                    <td class="col-2">Qualications</td>
+                    <td class="col-10">@displayLawyer.Qualications</td>
+            </tr>
+                </tbody>
+        </table>
+        </div>
+    </div>
+}
+<div class="row" style="margin-top:10px">
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" @onclick="@Edit" value="Edit" />
+            <input type="button" class="btn btn-light" @onclick="@Cancel" value="Cancel" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private DisplayLawyer displayLawyer { get; set; } = new DisplayLawyer();
+    [Parameter]
+    public string Id { get; set; }
+
+    [Inject]
+    public ILawyerHttpRepository LawyerRepo { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        displayLawyer = await LawyerRepo.GetLawyer(int.Parse(Id));
+    }
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Lawyertable");
+    }
+
+    void Edit()
+    {
+        NavigationManager.NavigateTo($"EditLawyer/{displayLawyer.Id}");
+    }
+}

@@ -1,0 +1,119 @@
+﻿@page "/CreateCase"
+@using ENB.Blazor.Lawyer.Models
+@using ENB.Blazor.Lawyer.HttpRepository
+@using LawyerOffice.Entities
+@using System.ComponentModel.DataAnnotations;
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject NotificationService notificationService
+
+<div class="alert alert-primary" role="alert">
+    <h2><strong>Create New Case</strong></h2>
+</div>
+
+<EditForm Model="createAndEditCase" OnValidSubmit="Create" class="card card-body bg-light mt-5">
+    <DataAnnotationsValidator />
+    
+    <div class="row">
+    <div class="col-md-12">
+        
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="CaseTitle" class="control-label">CaseTitle</label>
+                        <input form="CaseTitle" class="form-control" @bind="createAndEditCase.CaseTitle" />
+                        <ValidationMessage For="@(() => createAndEditCase.CaseTitle)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Case_Opened_date" class="control-label">Case_Opened_date</label>                        
+                        <RadzenDatePicker @bind-Value="createAndEditCase.Case_Opened_date" DateFormat="d"  Class="w-100" />
+                        <ValidationMessage For="@(() => createAndEditCase.Case_Opened_date)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Case_Closed_date" class="control-label">Case_Closed_date</label>
+                         <RadzenDatePicker @bind-Value="createAndEditCase.Case_Closed_date" DateFormat="d"  Class="w-100" />
+                        <ValidationMessage For="@(() => createAndEditCase.Case_Closed_date)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Statuscase" class="control-label">Statuscase</label>
+                        <InputSelect id="" @bind-Value="createAndEditCase.Statuscase" class="form-control">
+                            @foreach (var casestatus in Enum.GetValues(typeof(CaseStatus)))
+                            {
+                                <option value="@casestatus">@casestatus</option>
+                            }
+                        </InputSelect>
+                         <ValidationMessage For="@(() => createAndEditCase.Statuscase)" />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Other_case_details" class="control-label">Other_case_details</label>                      
+                        <InputTextArea for="Other_case_details" type="text" @bind-Value="createAndEditCase.Other_case_details" class="form-control" rows="5" id="MessageInputField" autofocus></InputTextArea>
+                         <ValidationMessage For="@(() => createAndEditCase.Other_case_details)" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Case_description" class="control-label">Case_description</label>                        
+                        <InputTextArea for="Case_description" type="text" @bind-Value="createAndEditCase.Case_description" class="form-control" rows="5" id="MessageInputField" autofocus></InputTextArea>
+                        
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Create"  class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <a asp-action="Index" @onclick="@Cancel" class="btn btn-primary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+       
+    </div>
+</div>
+</EditForm>
+@code {
+    private CreateAndEditCase createAndEditCase { get; set; } = new CreateAndEditCase();
+
+    [Inject]
+    public ICaseHttpRepository CaseRepo { get; set; }
+
+
+
+    protected async Task Create()
+    {
+        
+        await CaseRepo.AddCase(createAndEditCase);    
+            notificationService.Notify(NotificationSeverity.Info, summary: "Case Added succefully",
+               detail: "", duration: 4000);
+            NavigationManager.NavigateTo("casestable");
+        
+
+    }
+
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("casestable");
+    }
+
+
+}
+
+
+
+

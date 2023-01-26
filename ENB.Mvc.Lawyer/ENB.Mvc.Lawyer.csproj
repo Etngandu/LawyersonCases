@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\lawyer.jpg" />
+    <Content Remove="wwwroot\Images\lawyer1.jpg" />
+    <Content Remove="wwwroot\Images\lawyer2.png" />
+    <Content Remove="wwwroot\Images\lawyer3.png" />
+    <Content Remove="wwwroot\Images\lawyer4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LawyerOffice.Data.EF\LawyerOffice.Data.EF.csproj" />
+    <ProjectReference Include="..\LawyerOffice.Infrastructure\LawyerOffice.Infrastructure.csproj" />
+    <ProjectReference Include="..\LawyerOffice.Model\LawyerOffice.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\lawyer.jpg" />
+    <None Include="wwwroot\Images\lawyer1.jpg" />
+    <None Include="wwwroot\Images\lawyer2.png" />
+    <None Include="wwwroot\Images\lawyer3.png" />
+    <None Include="wwwroot\Images\lawyer4.png" />
+  </ItemGroup>
+
+</Project>

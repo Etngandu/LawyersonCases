@@ -1,0 +1,85 @@
+﻿@model ENB.Mvc.Lawyer.Models.CreateAndEditLawyerEvent
+@using LawyerOffice.Entities;
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="alert alert-primary" role="alert">
+    <h2><strong>Create New Lawyer event</strong></h2>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="NameLawyer" class="control-label"></label>
+                        <select id="drpEmpList" class="form-control" asp-for="LawyerId" asp-items="@(new SelectList(Model.ListLawyers, "Value", "Text"))">
+                            <option value="">--Select--</option>
+                        </select>
+                        <span asp-validation-for="LawyerId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control"  />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Start" class="control-label"></label>
+                        <input asp-for="Start" class="form-control" value="@ViewBag.EventDate" />
+                        <span asp-validation-for="Start" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="End" class="control-label"></label>
+                        <input asp-for="End" class="form-control" />
+                        <span asp-validation-for="End" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" type="text" class="form-control" rows="3" id="MessageInputField" autofocus></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="EventStatus" class="control-label"></label>
+                        <select asp-for="Color" class="form-control" asp-items="Html.GetEnumSelectList<EventStatus>()"></select>
+                        <span asp-validation-for="Color" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-check align-middle ">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="AllDay" /> @Html.DisplayNameFor(model => model.AllDay)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group align-middle">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-info">Back to Calendar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

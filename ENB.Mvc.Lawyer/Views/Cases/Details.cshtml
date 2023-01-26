@@ -1,0 +1,25 @@
+﻿@using LawyerOffice.Entities;
+@model ENB.Mvc.Lawyer.Models.DisplayCase;
+@{ ViewData["Title"] = "Delete"; }
+
+
+<div class="alert alert-primary" role="alert">
+    <h2><strong>Details Case: @ViewBag.Message</strong></h2>
+</div>
+
+<div id="view-all">
+    @await Html.PartialAsync("_Details", Model)
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <a asp-action="Edit" asp-controller="Cases" asp-route-id="@ViewBag.Id" class="btn btn-info btn-block col-md-2">Edit</a>
+    </div>
+    <div class="col-md-6">
+        <a asp-action="Index" class="btn btn-secondary btn-block col-md-5">Back to List</a>
+    </div>
+</div>

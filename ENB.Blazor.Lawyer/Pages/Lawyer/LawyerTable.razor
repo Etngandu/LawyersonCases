@@ -1,0 +1,75 @@
+﻿@page "/lawyertable"
+@using ENB.Blazor.Lawyer.Models
+@using ENB.Blazor.Lawyer.HttpRepository
+@inject NavigationManager NavigationManager
+
+<div class="alert alert-info" role="alert">
+    <h2><strong>Lawyer Dashboard <i class="fas fa-book-open-reader"></i></strong></h2>
+</div>
+
+<a href="/CreateLawyer" class="btn btn-info" style="margin-bottom:5px"> Create New Lawyer</a>
+
+<RadzenDataGrid Data="@LawyerList" TItem="DisplayLawyer" AllowPaging="true" PageSize="10"
+       PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"  AllowSrolling="true" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Advanced">
+    <Columns>
+        <RadzenDataGridColumn TItem="DisplayLawyer" Frozen="true" Property="Id" Title="ID" Width="80px" />
+        <RadzenDataGridColumn TItem="DisplayLawyer" Property="FullName" Title="Name"  >
+            <Template Context="Lawyers">
+                <a  href="@($"DetailsLawyer/{Lawyers.Id}")" >@Lawyers.FullName</a>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="DisplayLawyer" Property="Hourly_rate" Title="H/Rate" Width="100px">
+            <Template Context="Lawyers">
+                @String.Format(new System.Globalization.CultureInfo("fr-BE"), "{0:C}", Lawyers.Hourly_rate)
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="DisplayLawyer" Property="DateOfBirth" FormatString="{0:dd/MM/yyyy}"  Title="Date of Birth" Width="¨140px" />
+        
+        <RadzenDataGridColumn TItem="DisplayLawyer" Property="PhoneNumber" Title="Phone Number" />
+        <RadzenDataGridColumn TItem="DisplayLawyer" Property="EmailAddres" Title="Email" Width="¨140px" />
+
+        <RadzenDataGridColumn TItem="DisplayLawyer" Context="Lawyers" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="120px">
+            <Template Context="Lawyers">
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Info" Class="m-1" Size="ButtonSize.Small" Click="@(args => OnClickEdit(Lawyers.Id))" @onclick:stopPropagation="true" Width="150px">
+                    <strong> <i class='fas fa-pencil'></i>  Edit</strong>
+                </RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="DisplayLawyer" Context="Lawyers" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="60px">
+            <Template Context="Lawyers">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1" Click="@(args => OnClickDelete(Lawyers.Id))" @onclick:stopPropagation="true" Width="150px">
+                    <strong> <i class='fa-solid fa-trash-can'></i>    Delete</strong>
+                </RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+        
+
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    public IEnumerable<DisplayLawyer> LawyerList { get; set; }
+
+    [Inject]
+    public ILawyerHttpRepository LawyerRepo { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        LawyerList = await LawyerRepo.GetLawyers();
+        //just for testing
+        foreach (var lawyer in LawyerList)
+        {
+            Console.WriteLine(lawyer.DateOfBirth);
+        }
+    }
+
+    void OnClickEdit(int Id)
+    {
+        NavigationManager.NavigateTo($"EditLawyer/{Id}");
+    }
+    
+
+    void OnClickDelete(int Id)
+    {
+        NavigationManager.NavigateTo($"DeleteLawyer/{Id}");
+    }
+}
